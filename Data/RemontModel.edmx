@@ -1,0 +1,406 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище remontModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="order_services">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="order_id" Type="int" Nullable="false" />
+          <Property Name="service_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="orders">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="client_id" Type="int" />
+          <Property Name="manager_id" Type="int" />
+          <Property Name="executor_id" Type="int" />
+          <Property Name="price" Type="money" />
+          <Property Name="description" Type="text" />
+          <Property Name="is_comleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="roles">
+          <Key>
+            <PropertyRef Name="role_id" />
+          </Key>
+          <Property Name="role_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="role_name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="services">
+          <Key>
+            <PropertyRef Name="service_id" />
+          </Key>
+          <Property Name="service_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="price" Type="money" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="lastname" Type="nvarchar" MaxLength="100" />
+          <Property Name="firstname" Type="nvarchar" MaxLength="100" />
+          <Property Name="middlename" Type="nvarchar" MaxLength="100" />
+          <Property Name="login" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="role_id" Type="int" />
+        </EntityType>
+        <Association Name="FK__order_ser__order__4316F928">
+          <End Role="orders" Type="Self.orders" Multiplicity="1" />
+          <End Role="order_services" Type="Self.order_services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="orders">
+              <PropertyRef Name="order_id" />
+            </Principal>
+            <Dependent Role="order_services">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_ser__servi__440B1D61">
+          <End Role="services" Type="Self.services" Multiplicity="1" />
+          <End Role="order_services" Type="Self.order_services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="services">
+              <PropertyRef Name="service_id" />
+            </Principal>
+            <Dependent Role="order_services">
+              <PropertyRef Name="service_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__orders__client_i__3E52440B">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="client_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__orders__executor__403A8C7D">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="executor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__orders__manager___3F466844">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="manager_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__users__role_id__398D8EEE">
+          <End Role="roles" Type="Self.roles" Multiplicity="0..1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="role_id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище remontModelContainer">
+          <EntitySet Name="order_services" EntityType="Self.order_services" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="orders" EntityType="Self.orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="roles" EntityType="Self.roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="services" EntityType="Self.services" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__order_ser__order__4316F928" Association="Self.FK__order_ser__order__4316F928">
+            <End Role="orders" EntitySet="orders" />
+            <End Role="order_services" EntitySet="order_services" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_ser__servi__440B1D61" Association="Self.FK__order_ser__servi__440B1D61">
+            <End Role="services" EntitySet="services" />
+            <End Role="order_services" EntitySet="order_services" />
+          </AssociationSet>
+          <AssociationSet Name="FK__orders__client_i__3E52440B" Association="Self.FK__orders__client_i__3E52440B">
+            <End Role="users" EntitySet="users" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__orders__executor__403A8C7D" Association="Self.FK__orders__executor__403A8C7D">
+            <End Role="users" EntitySet="users" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__orders__manager___3F466844" Association="Self.FK__orders__manager___3F466844">
+            <End Role="users" EntitySet="users" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__users__role_id__398D8EEE" Association="Self.FK__users__role_id__398D8EEE">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="remontModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="order_services">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="order_id" Type="Int32" Nullable="false" />
+          <Property Name="service_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="orders" Relationship="Self.FK__order_ser__order__4316F928" FromRole="order_services" ToRole="orders" />
+          <NavigationProperty Name="services" Relationship="Self.FK__order_ser__servi__440B1D61" FromRole="order_services" ToRole="services" />
+        </EntityType>
+        <EntityType Name="orders">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="client_id" Type="Int32" />
+          <Property Name="manager_id" Type="Int32" />
+          <Property Name="executor_id" Type="Int32" />
+          <Property Name="price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="is_comleted" Type="Boolean" />
+          <NavigationProperty Name="order_services" Relationship="Self.FK__order_ser__order__4316F928" FromRole="orders" ToRole="order_services" />
+          <NavigationProperty Name="users" Relationship="Self.FK__orders__client_i__3E52440B" FromRole="orders" ToRole="users" />
+          <NavigationProperty Name="users1" Relationship="Self.FK__orders__executor__403A8C7D" FromRole="orders" ToRole="users" />
+          <NavigationProperty Name="users2" Relationship="Self.FK__orders__manager___3F466844" FromRole="orders" ToRole="users" />
+        </EntityType>
+        <EntityType Name="roles">
+          <Key>
+            <PropertyRef Name="role_id" />
+          </Key>
+          <Property Name="role_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="role_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="users" Relationship="Self.FK__users__role_id__398D8EEE" FromRole="roles" ToRole="users" />
+        </EntityType>
+        <EntityType Name="services">
+          <Key>
+            <PropertyRef Name="service_id" />
+          </Key>
+          <Property Name="service_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="price" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="order_services" Relationship="Self.FK__order_ser__servi__440B1D61" FromRole="services" ToRole="order_services" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="lastname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="firstname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="middlename" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="login" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="role_id" Type="Int32" />
+          <NavigationProperty Name="orders" Relationship="Self.FK__orders__client_i__3E52440B" FromRole="users" ToRole="orders" />
+          <NavigationProperty Name="orders1" Relationship="Self.FK__orders__executor__403A8C7D" FromRole="users" ToRole="orders" />
+          <NavigationProperty Name="orders2" Relationship="Self.FK__orders__manager___3F466844" FromRole="users" ToRole="orders" />
+          <NavigationProperty Name="roles" Relationship="Self.FK__users__role_id__398D8EEE" FromRole="users" ToRole="roles" />
+        </EntityType>
+        <Association Name="FK__order_ser__order__4316F928">
+          <End Role="orders" Type="Self.orders" Multiplicity="1" />
+          <End Role="order_services" Type="Self.order_services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="orders">
+              <PropertyRef Name="order_id" />
+            </Principal>
+            <Dependent Role="order_services">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_ser__servi__440B1D61">
+          <End Role="services" Type="Self.services" Multiplicity="1" />
+          <End Role="order_services" Type="Self.order_services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="services">
+              <PropertyRef Name="service_id" />
+            </Principal>
+            <Dependent Role="order_services">
+              <PropertyRef Name="service_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__orders__client_i__3E52440B">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="client_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__orders__executor__403A8C7D">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="executor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__orders__manager___3F466844">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="manager_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__users__role_id__398D8EEE">
+          <End Role="roles" Type="Self.roles" Multiplicity="0..1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="role_id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="remontEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="order_services" EntityType="Self.order_services" />
+          <EntitySet Name="orders" EntityType="Self.orders" />
+          <EntitySet Name="roles" EntityType="Self.roles" />
+          <EntitySet Name="services" EntityType="Self.services" />
+          <EntitySet Name="users" EntityType="Self.users" />
+          <AssociationSet Name="FK__order_ser__order__4316F928" Association="Self.FK__order_ser__order__4316F928">
+            <End Role="orders" EntitySet="orders" />
+            <End Role="order_services" EntitySet="order_services" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_ser__servi__440B1D61" Association="Self.FK__order_ser__servi__440B1D61">
+            <End Role="services" EntitySet="services" />
+            <End Role="order_services" EntitySet="order_services" />
+          </AssociationSet>
+          <AssociationSet Name="FK__orders__client_i__3E52440B" Association="Self.FK__orders__client_i__3E52440B">
+            <End Role="users" EntitySet="users" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__orders__executor__403A8C7D" Association="Self.FK__orders__executor__403A8C7D">
+            <End Role="users" EntitySet="users" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__orders__manager___3F466844" Association="Self.FK__orders__manager___3F466844">
+            <End Role="users" EntitySet="users" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__users__role_id__398D8EEE" Association="Self.FK__users__role_id__398D8EEE">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище remontModelContainer" CdmEntityContainer="remontEntities">
+          <EntitySetMapping Name="order_services">
+            <EntityTypeMapping TypeName="remontModel.order_services">
+              <MappingFragment StoreEntitySet="order_services">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="service_id" ColumnName="service_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orders">
+            <EntityTypeMapping TypeName="remontModel.orders">
+              <MappingFragment StoreEntitySet="orders">
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="client_id" ColumnName="client_id" />
+                <ScalarProperty Name="manager_id" ColumnName="manager_id" />
+                <ScalarProperty Name="executor_id" ColumnName="executor_id" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="is_comleted" ColumnName="is_comleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="roles">
+            <EntityTypeMapping TypeName="remontModel.roles">
+              <MappingFragment StoreEntitySet="roles">
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+                <ScalarProperty Name="role_name" ColumnName="role_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="services">
+            <EntityTypeMapping TypeName="remontModel.services">
+              <MappingFragment StoreEntitySet="services">
+                <ScalarProperty Name="service_id" ColumnName="service_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="price" ColumnName="price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="remontModel.users">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="lastname" ColumnName="lastname" />
+                <ScalarProperty Name="firstname" ColumnName="firstname" />
+                <ScalarProperty Name="middlename" ColumnName="middlename" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
